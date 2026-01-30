@@ -1,27 +1,41 @@
-user_data = {
-    "name": "Alice Johnson",
-    "email": "alice.johnson@example.com",
-    "phone": "07123456789",
-    "national_id": "AB123456C"
-}
+userNames = ["drSmith", "drHouse"]
+userEmails = ["drSmith@gmail.com", "drHouse@hospital.com"]
+userRoles = ["admin", "docter"]
+userDept = ["management", "research"]
 
-def mask_email(email):
-    local, domain = email.split("@")
-    return local[0] + "***@" + domain
+_userAttempts = 0
+while (_userAttempts < 3):
+    _userName = input("Please enter your username:\n")
+    _userPassword = input("Please enter your password:\n")
+    if (_userName in userNames and _userPassword == "123"):
+        print("Login Correct, Access Granted")
 
-def mask_phone(phone):
-    return "***-***-" + phone[-4:]
+        _patientName = input("Please enter the patients full name:\n")
+        _patientDOB = input("Please enter the patients DOB (YYYY/MM/DD):\n")
+        _patientAOB = input("Please enter the patients Address of Birth:\n")
+        _patientCOB = input("Please enter the patients Country of Birth:\n")
+        _patientAddress = input("Please enter the patients Current Address:\n")
 
-def mask_national_id(nid):
-    return "***" + nid[-3:]   # show only last 3 characters
+        _patientDetails = [_patientName, _patientDOB, _patientAOB, _patientCOB, _patientAddress,]
 
-protected_data = {
-    "name": user_data["name"],  # name can stay visible
-    "email": mask_email(user_data["email"]),
-    "phone": mask_phone(user_data["phone"]),
-    "national_id": mask_national_id(user_data["national_id"])
-}
+        for _element in _patientDetails:
+            _cypherElement = ""
+            for _x in range(0, len(_element)):
+                _cypherElement.join(chr(ord(_element[_x]) + 3))
+            _element = _cypherElement
 
-print("Protected User Data:")
-for key, value in protected_data.items():
-    print(f"{key}: {value}")
+        print("Cyphered Details are:")
+        for _element in _patientDetails:
+            print(f"{_element}")
+
+        if(userRoles[userNames.index(_userName)] == "admin"):
+            for _element in _patientDetails:
+                _cypherElement = ""
+                for _x in range(0, len(_element)):
+                    _cypherElement.join(chr(ord(_element[_x]) + 3))
+                _element = _cypherElement
+        
+    else:
+        print("Login Incorrect, Access Denied")
+        _userAttempts+=1
+print("Too many attempts, exiting.")
